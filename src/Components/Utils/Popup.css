@@ -1,0 +1,29 @@
+.popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: #fff;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+
+  .popup_error {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 10px 20px;
+    background-color: #ff3333;
+    color: #fff;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+  
+  .popup.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
