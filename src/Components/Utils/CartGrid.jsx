@@ -17,6 +17,7 @@ const CartGrid = ({ cartItems, handleRemoveItem }) => {
               <span class="character">Displacement: {car.Displacement}</span>
               <span class="character">Origin: {car.Origin}</span>
               <span class="character">Year: {car.Year}</span>
+              <span class="character">Price: {car.Price}</span>
               <button
                 onClick={() => handleRemoveItem(index)}
                 style={{ marginTop: "15px" }}

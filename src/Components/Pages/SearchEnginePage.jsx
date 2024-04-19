@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 
 const SearchEnginePage = () => {
-  const endpoint = "https://api.npoint.io/cf5db5290dfcf4eca704";
+  const endpoint = " https://api.npoint.io/4989eff402469a1d8505";
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,6 +90,7 @@ const SearchEnginePage = () => {
         <td data-label="Year" className="optimizer-table-data">
           {car.Year}
         </td>
+
         <td className="optimizer-table-data">
           <button onClick={(event) => handleAddItem(event, index)}>
             Add to Cart
@@ -314,7 +315,7 @@ const SearchEnginePage = () => {
         </motion.div>
       )}
       <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
-      {viewModalSuccess && (
+      {viewModalSuccess && !isCartPageOpen && (
         <VehicleDetailsPage
           handleCloseDetails={handleCloseDetails}
           filteredCars={filteredCars}
@@ -325,6 +326,9 @@ const SearchEnginePage = () => {
           isPopupOpen={isPopupOpen}
           setIsPopupOpen={setIsPopupOpen}
           togglePopup={togglePopup}
+          handleCartOpen={handleCartOpen}
+          isCartPageOpen={isCartPageOpen}
+          setIsCartPageOpen={setIsCartPageOpen}
         />
       )}
       {isCartPageOpen && (

@@ -1,7 +1,7 @@
 import React from "react";
-import { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
+import CartCounterDisplay from "../Utils/CardCounterDisplay";
 import Popup from "../Utils/Popup";
 
 const VehicleDetailsPage = ({
@@ -14,6 +14,9 @@ const VehicleDetailsPage = ({
   isPopupOpen,
   setIsPopupOpen,
   togglePopup,
+  handleCartOpen,
+  isCartPageOpen,
+  setIsCartPageOpen,
 }) => {
   const selectedCar = filteredCars[selectedCarIndex];
 
@@ -27,8 +30,24 @@ const VehicleDetailsPage = ({
 
   return (
     <>
-      <div className="details_title">
-        {selectedCar.Name.charAt(0).toUpperCase() + selectedCar.Name.slice(1)}
+      <div className="details_title_container">
+        <div className="details_title">
+          {selectedCar.Name.charAt(0).toUpperCase() + selectedCar.Name.slice(1)}
+        </div>
+        <div>
+          <div style={{ fontSize: "40px" }}>
+            <CartCounterDisplay
+              cartItems={cartItems}
+              handleCartOpen={handleCartOpen}
+              isCartPageOpen={isCartPageOpen}
+              setIsCartPageOpen={setIsCartPageOpen}
+            />
+          </div>
+          <p>
+            <span className="details_excerpt">Price:</span>
+            {selectedCar.Price}
+          </p>
+        </div>
       </div>
       <Tabs>
         <TabList style={{ marginBottom: "2rem" }}>

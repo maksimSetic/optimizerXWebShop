@@ -17,33 +17,55 @@ const CheckoutPage = ({
     setIsCartPageOpen(false);
   };
 
+  // Calculate total price
+  const totalPrice = cartItems.reduce((total, car) => total + car.Price, 0);
+
   return (
     <>
       <button onClick={closeCheckout}>Back to cart</button>
       <Link to="/">
         <button onClick={backToShop}>Back to shop</button>
       </Link>
-      {cartItems?.map((car, index) => (
-        <>
-          <li id="kirk">
-            <span class="actor">
-              {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
-            </span>
-            <span class="character">Horsepower: {car.Horsepower}</span>
-            <span class="character">Acceleration: {car.Acceleration}</span>
-            <span class="character">Cylinders: {car.Cylinders}</span>
-            <span class="character">Displacement: {car.Displacement}</span>
-            <span class="character">Origin: {car.Origin}</span>
-            <span class="character">Year: {car.Year}</span>
-            <button
-              onClick={() => handleRemoveItem(index)}
-              style={{ marginTop: "15px" }}
-            >
-              Remove
-            </button>
-          </li>
-        </>
-      ))}
+      <div className="checkout_wrapper">
+        <div className="checkout_left">
+          <ul className="checkout_items">
+            {cartItems?.map((car, index) => (
+              <li key={index} className="checkout_item">
+                <span className="actor">
+                  {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
+                </span>
+                <span className="character">Horsepower: {car.Horsepower}</span>
+                <span className="character">
+                  Acceleration: {car.Acceleration}
+                </span>
+                <span className="character">Cylinders: {car.Cylinders}</span>
+                <span className="character">
+                  Displacement: {car.Displacement}
+                </span>
+                <span className="character">Origin: {car.Origin}</span>
+                <span className="character">Year: {car.Year}</span>
+                <span className="character">Price: {car.Price}</span>
+                <button
+                  onClick={() => handleRemoveItem(index)}
+                  style={{ marginTop: "15px" }}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="checkout_right">
+          <div>Total Price: {totalPrice}</div>
+          {totalPrice === 0 ? (
+            <div></div>
+          ) : (
+            <div>
+              <button style={{ marginTop: "5px" }}>Confirm</button>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   );
 };

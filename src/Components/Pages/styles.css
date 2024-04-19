@@ -89,10 +89,17 @@
   font-weight: bold;
   font-size: 2.5rem;
   margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1em;
 }
 
 .details_excerpt {
   font-weight: bold;
+}
+
+.details_title_container {
+  display: flex;
 }
 
 .cart_list_container {
@@ -113,6 +120,29 @@
   font-size: 0.8em;
 }
 
+.checkout_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkout_left {
+  flex: 1;
+  gap: 20px;
+}
+
+.checkout_items {
+  list-style: none;
+  padding: 0;
+}
+
+.checkout_item {
+  margin-bottom: 20px;
+  border: 2px solid red;
+}
+
+.checkout_right {
+  flex: 1;
+}
 .popup_window_closed{
   height: 100px;
   background-color: red;
