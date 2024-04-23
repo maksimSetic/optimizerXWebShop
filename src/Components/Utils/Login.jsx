@@ -2,17 +2,26 @@ import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "./ContextProvider";
 import { Link } from "react-router-dom";
 import axios from "../API/axios";
+import SearchEnginePage from "../Pages/SearchEnginePage";
 
 const REGISTER_URL = "https://api.npoint.io/75d66fd964e4cb9cf11a";
 
-const Login = ({ success, setSuccess, handleRegisterOpen }) => {
+const Login = ({
+  success,
+  setSuccess,
+  handleRegisterOpen,
+  authSuccess,
+  setAuthSuccess,
+  userName,
+  setUsername,
+  pwd,
+  setPwd,
+  errMsg,
+  setErrMsg,
+}) => {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
-
-  const [userName, setUsername] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
     userRef.current.focus();
@@ -33,6 +42,7 @@ const Login = ({ success, setSuccess, handleRegisterOpen }) => {
       if (user) {
         setSuccess(true);
         setAuth(user);
+        setAuthSuccess(true);
       } else {
         setErrMsg("Invalid username or password");
       }

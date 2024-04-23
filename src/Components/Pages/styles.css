@@ -16,6 +16,7 @@
   background-color: #f8f8f8;
   border: 1px solid #ddd;
   padding: .35em;
+  cursor: pointer;
 }
 
 .optimizer-table-header,
@@ -162,6 +163,11 @@
   transition: opacity 3s;
   animation: fadeinout 5s linear forwards;
 
+}
+
+.profile_icon {
+  cursor: pointer;
+  display: flex;
 }
 
 

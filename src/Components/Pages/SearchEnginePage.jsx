@@ -6,9 +6,11 @@ import CartCounterDisplay from "../Utils/CardCounterDisplay";
 import VehicleDetailsPage from "./VehicleDetailsPage";
 import CartPage from "./CartPage";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 import "./styles.css";
+import ProfilePage from "./ProfilePage";
 
-const SearchEnginePage = () => {
+const SearchEnginePage = ({ userName, setUsername, pwd, setPwd }) => {
   const endpoint = " https://api.npoint.io/4989eff402469a1d8505";
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -24,6 +26,7 @@ const SearchEnginePage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isProfilePageOpen, setIsProfilePageOpen] = useState(false);
 
   useEffect(() => {
     fetch(endpoint)
@@ -45,6 +48,12 @@ const SearchEnginePage = () => {
         setIsPopupOpen(false);
       }, 2000);
     }
+  };
+
+  const toggleProfile = () => {
+    setIsProfilePageOpen(true);
+    setIsCartPageOpen(false);
+    setVisibleModal(false);
   };
 
   const renderTable = () => {
@@ -186,6 +195,12 @@ const SearchEnginePage = () => {
     setIsCheckoutOpen(true);
   };
 
+  const backToShop = () => {
+    setIsCartPageOpen(false);
+    setViewModalSuccess(false);
+    setIsProfilePageOpen(false);
+  };
+
   const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
 
   const customStyles = {
@@ -201,13 +216,31 @@ const SearchEnginePage = () => {
 
   return (
     <>
-      {!isCartPageOpen && !viewModalSuccess && (
+      {!isCartPageOpen && !viewModalSuccess && !isProfilePageOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ ease: "easeIn", duration: 0.2 }}
         >
           <div style={{ display: "flex", fontSize: "40px" }}>
+            <div className="profile_icon" onClick={toggleProfile}>
+              <CgProfile
+                style={{
+                  marginLeft: "5px",
+                  marginTop: "5px",
+                  cursor: "pointer",
+                }}
+              />
+              <div
+                style={{
+                  fontSize: "0.6em",
+                  marginTop: "0.2em",
+                  marginLeft: "0.1em",
+                }}
+              >
+                {userName}
+              </div>
+            </div>
             <div
               style={{
                 marginLeft: "auto",
@@ -342,6 +375,16 @@ const SearchEnginePage = () => {
           setIsCheckoutOpen={setIsCheckoutOpen}
           handleCartOpen={handleCartOpen}
           setIsCartPageOpen={setIsCartPageOpen}
+        />
+      )}
+
+      {isProfilePageOpen && !isCartPageOpen && !viewModalSuccess && (
+        <ProfilePage
+          backToShop={backToShop}
+          userName={userName}
+          setUsername={setUsername}
+          pwd={pwd}
+          setPwd={setPwd}
         />
       )}
     </>

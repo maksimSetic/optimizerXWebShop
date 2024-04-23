@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PaymentButton from "../Utils/PaymentButton";
 
 const CheckoutPage = ({
   isCheckoutOpen,
@@ -17,8 +18,8 @@ const CheckoutPage = ({
     setIsCartPageOpen(false);
   };
 
-  // Calculate total price
   const totalPrice = cartItems.reduce((total, car) => total + car.Price, 0);
+  const currency = "USD";
 
   return (
     <>
@@ -61,7 +62,7 @@ const CheckoutPage = ({
             <div></div>
           ) : (
             <div>
-              <button style={{ marginTop: "5px" }}>Confirm</button>
+              <PaymentButton totalPrice={totalPrice} currency={currency} />
             </div>
           )}
         </div>

@@ -8,6 +8,10 @@ const Home = () => {
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(true);
+  const [authSuccess, setAuthSuccess] = useState(false);
+  const [userName, setUsername] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const handleRegisterOpen = () => {
     setIsRegisterOpen(true);
@@ -19,25 +23,43 @@ const Home = () => {
     setIsRegisterOpen(false);
   };
 
+  const handleAuthSuccess = () => {
+    setIsLoginOpen(false);
+    setIsRegisterOpen(false);
+    setAuthSuccess(true);
+  };
+
   return (
     <>
-      {isLoginOpen && !isRegisterOpen && !loginSuccess && (
+      {!loginSuccess && !isRegisterOpen && (
         <Login
           success={loginSuccess}
           setSuccess={setLoginSuccess}
+          authSuccess={authSuccess}
+          setAuthSuccess={setAuthSuccess}
           handleRegisterOpen={handleRegisterOpen}
+          handleAuthSuccess={handleAuthSuccess}
+          userName={userName}
+          setUsername={setUsername}
+          pwd={pwd}
+          setPwd={setPwd}
+          errMsg={errMsg}
+          setErrMsg={setErrMsg}
         />
       )}
-
-      {!isLoginOpen && isRegisterOpen && !registerSuccess && (
+      {!loginSuccess && !isLoginOpen && (
         <Register
           success={registerSuccess}
           setSuccess={setRegisterSuccess}
           handleLoginOpen={handleLoginOpen}
+          setIsRegisterOpen={setIsRegisterOpen}
+          setIsLoginOpen={setIsLoginOpen}
         />
       )}
 
-      {loginSuccess && <SearchEnginePage />}
+      {loginSuccess && (
+        <SearchEnginePage userName={userName} setUsername={setUsername} />
+      )}
     </>
   );
 };

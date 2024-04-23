@@ -12,7 +12,13 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "https://api.npoint.io/75d66fd964e4cb9cf11a";
 
-const Register = ({ success, setSuccess, handleLoginOpen }) => {
+const Register = ({
+  success,
+  setSuccess,
+  handleLoginOpen,
+  setIsRegisterOpen,
+  setIsLoginOpen,
+}) => {
   const userRef = useRef();
   const errRef = useRef();
 
@@ -68,6 +74,8 @@ const Register = ({ success, setSuccess, handleLoginOpen }) => {
       setUsername("");
       setPwd("");
       setMatchPwd("");
+      setIsLoginOpen(true);
+      setIsRegisterOpen(false);
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
