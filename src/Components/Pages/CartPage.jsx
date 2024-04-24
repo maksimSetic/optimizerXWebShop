@@ -1,8 +1,6 @@
 import React from "react";
 import CartGrid from "../Utils/CartGrid";
 import CheckoutPage from "./CheckoutPage";
-import CartCounterDisplay from "../Utils/CardCounterDisplay";
-import { Link } from "react-router-dom";
 import "./styles.css";
 
 const CartPage = ({
@@ -10,6 +8,7 @@ const CartPage = ({
   handleClearCart,
   handleGoToCheckout,
   cartItems,
+  setCartItems,
   handleRemoveItem,
   isCheckoutOpen,
   setIsCheckoutOpen,
@@ -36,6 +35,7 @@ const CartPage = ({
         <>
           <CheckoutPage
             cartItems={cartItems}
+            setCartItems={setCartItems}
             isCheckoutOpen={isCheckoutOpen}
             setIsCheckoutOpen={setIsCheckoutOpen}
             handleRemoveItem={handleRemoveItem}

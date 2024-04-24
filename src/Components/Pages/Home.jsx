@@ -31,7 +31,7 @@ const Home = () => {
 
   return (
     <>
-      {!loginSuccess && !isRegisterOpen && (
+      {/*  {!loginSuccess && !isRegisterOpen && (
         <Login
           success={loginSuccess}
           setSuccess={setLoginSuccess}
@@ -55,11 +55,9 @@ const Home = () => {
           setIsRegisterOpen={setIsRegisterOpen}
           setIsLoginOpen={setIsLoginOpen}
         />
-      )}
+      )} */}
 
-      {loginSuccess && (
-        <SearchEnginePage userName={userName} setUsername={setUsername} />
-      )}
+      <SearchEnginePage userName={userName} setUsername={setUsername} />
     </>
   );
 };
