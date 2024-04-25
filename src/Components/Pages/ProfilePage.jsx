@@ -1,7 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./profilePageStyles.css";
+import axios from "axios";
 
-const ProfilePage = ({ backToShop, userName }) => {
+const ProfilePage = ({
+  backToShop,
+  userName,
+  userId,
+  profileInfo,
+  setProfileInfo,
+}) => {
+  const [user, setUser] = useState({ userId: userId });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const endpoint = `http://localhost:4000/get-user/${userId}`;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.post(endpoint, user);
+        setUser(response.data);
+        console.log(user);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
   return (
     <>
       <div>
@@ -15,8 +45,9 @@ const ProfilePage = ({ backToShop, userName }) => {
           />
         </div>
         <div class="salutation">
-          <div class="name">{userName}</div>
-          <div class="designation">MERN Developer</div>
+          <div class="name">{user.userName}</div>
+          <div class="designation">{user.profession}</div>
+          <div class="designation">{user.favoriteAnimal}</div>
         </div>
         <div class="options">
           <button class="status">

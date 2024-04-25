@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import "./styles.css";
 import ProfilePage from "./ProfilePage";
 
-const SearchEnginePage = ({ userName, setUsername, pwd, setPwd }) => {
+const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
   const endpoint = " https://api.npoint.io/4989eff402469a1d8505";
   const [cars, setCars] = useState([]);
   const [filteredCars, setFilteredCars] = useState([]);
@@ -27,6 +27,16 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd }) => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isProfilePageOpen, setIsProfilePageOpen] = useState(false);
+  const [profession, setProfession] = useState("Doctor");
+  const [favoriteAnimal, setFavoriteAnimal] = useState("Platypus");
+
+  const [profileInfo, setProfileInfo] = useState({
+    userName: userName,
+    userId: userId,
+    password: pwd,
+    profession: profession,
+    favoriteAnimal: favoriteAnimal,
+  });
 
   useEffect(() => {
     fetch(endpoint)
@@ -384,9 +394,12 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd }) => {
         <ProfilePage
           backToShop={backToShop}
           userName={userName}
+          userId={userId}
           setUsername={setUsername}
           pwd={pwd}
           setPwd={setPwd}
+          profileInfo={profileInfo}
+          setProfileInfo={setProfileInfo}
         />
       )}
     </>

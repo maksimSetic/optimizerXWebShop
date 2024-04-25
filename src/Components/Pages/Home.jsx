@@ -10,6 +10,7 @@ const Home = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(true);
   const [authSuccess, setAuthSuccess] = useState(false);
   const [userName, setUsername] = useState("akaka123");
+  const [userId, setUserId] = useState(1);
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
@@ -57,7 +58,11 @@ const Home = () => {
         />
       )} */}
 
-      <SearchEnginePage userName={userName} setUsername={setUsername} />
+      <SearchEnginePage
+        userName={userName}
+        setUsername={setUsername}
+        userId={userId}
+      />
     </>
   );
 };

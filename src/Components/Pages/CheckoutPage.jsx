@@ -26,14 +26,16 @@ const CheckoutPage = ({
 
   const amount = cartItems.reduce((total, car) => total + car.Price, 0);
   const [currency, setCurrency] = useState("USD");
-  const [password, setPassword] = useState("USD");
-  const [cardNumber, setCardNumber] = useState("USD");
-  const [cVV, setCVV] = useState("USD");
+  const [email, setEmail] = useState("ghostwarrior222@gmail.com");
+  const [password, setPassword] = useState("Lala123!");
+  const [cardNumber, setCardNumber] = useState("42424242424242");
+  const [cVV, setCVV] = useState("123");
 
   const [paymentObject, setPaymentObject] = useState({
     amount: amount,
     currency: currency,
-    name: userName,
+    userName: userName,
+    email: email,
     password: password,
     cardNumber: cardNumber,
     cVV: cVV,
@@ -74,7 +76,13 @@ const CheckoutPage = ({
       </Link>
       {!isPaymentSuccess && (
         <>
-          <PaymentForm userName={userName} />
+          <PaymentForm
+            userName={userName}
+            email={email}
+            password={password}
+            cardNumber={cardNumber}
+            cVV={cVV}
+          />
           <div className="checkout_wrapper">
             <div className="checkout_left">
               <ul className="checkout_items">

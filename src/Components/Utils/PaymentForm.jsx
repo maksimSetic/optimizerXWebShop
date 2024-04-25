@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./paymentForm.css";
 
-const PaymentForm = ({ userName }) => {
-  const [email, setEmail] = useState("ghostwarrior222@gmail.com");
-  const [password, setPassword] = useState("Lala123!");
-  const [cardNumber, setCardNumber] = useState("42424242424242");
-  const [cVV, setCVV] = useState("123");
-
+const PaymentForm = ({ userName, email, password, cardNumber, cVV }) => {
   const [nameFocused, setNameFocused] = useState(
     userName && userName.length > 0
   );
