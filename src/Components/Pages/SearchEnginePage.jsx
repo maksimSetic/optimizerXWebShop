@@ -376,6 +376,7 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd }) => {
           setIsCheckoutOpen={setIsCheckoutOpen}
           handleCartOpen={handleCartOpen}
           setIsCartPageOpen={setIsCartPageOpen}
+          userName={userName}
         />
       )}
 

@@ -9,7 +9,7 @@ const Home = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(true);
   const [authSuccess, setAuthSuccess] = useState(false);
-  const [userName, setUsername] = useState("");
+  const [userName, setUsername] = useState("akaka123");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
 

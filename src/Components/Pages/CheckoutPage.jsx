@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-dropdown";
-import "react-dropdown/style.css";
 import axios from "../API/axios";
 import PaymentSuccessPage from "./PaymentSuccessPage";
+import PaymentForm from "../Utils/PaymentForm";
+import "react-dropdown/style.css";
 
 const CheckoutPage = ({
   isCheckoutOpen,
@@ -12,6 +13,7 @@ const CheckoutPage = ({
   cartItems,
   setCartItems,
   handleRemoveItem,
+  userName,
 }) => {
   const closeCheckout = () => {
     setIsCheckoutOpen(false);
@@ -24,10 +26,17 @@ const CheckoutPage = ({
 
   const amount = cartItems.reduce((total, car) => total + car.Price, 0);
   const [currency, setCurrency] = useState("USD");
+  const [password, setPassword] = useState("USD");
+  const [cardNumber, setCardNumber] = useState("USD");
+  const [cVV, setCVV] = useState("USD");
 
   const [paymentObject, setPaymentObject] = useState({
     amount: amount,
     currency: currency,
+    name: userName,
+    password: password,
+    cardNumber: cardNumber,
+    cVV: cVV,
   });
 
   const options = ["USD", "EUR", "RUB"];
@@ -64,53 +73,49 @@ const CheckoutPage = ({
         <button onClick={backToShop}>Back to shop</button>
       </Link>
       {!isPaymentSuccess && (
-        <div className="checkout_wrapper">
-          <div className="checkout_left">
-            <ul className="checkout_items">
-              {cartItems?.map((car, index) => (
-                <li key={index} className="checkout_item">
-                  <span className="actor">
-                    {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
-                  </span>
-                  <span className="character">
-                    Horsepower: {car.Horsepower}
-                  </span>
-                  <span className="character">
-                    Acceleration: {car.Acceleration}
-                  </span>
-                  <span className="character">Cylinders: {car.Cylinders}</span>
-                  <span className="character">
-                    Displacement: {car.Displacement}
-                  </span>
-                  <span className="character">Origin: {car.Origin}</span>
-                  <span className="character">Year: {car.Year}</span>
-                  <span className="character">Price: {car.Price}</span>
-                  <button
-                    onClick={() => handleRemoveItem(index)}
-                    style={{ marginTop: "15px" }}
-                  >
-                    Remove
-                  </button>
-                </li>
-              ))}
-            </ul>
+        <>
+          <PaymentForm userName={userName} />
+          <div className="checkout_wrapper">
+            <div className="checkout_left">
+              <ul className="checkout_items">
+                {cartItems?.map((car, index) => (
+                  <li key={index} className="checkout_item">
+                    <span className="actor">
+                      {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
+                    </span>
+                    <button
+                      onClick={() => handleRemoveItem(index)}
+                      style={{ marginTop: "15px" }}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="checkout_right">
+              <div>Total Price: {amount}</div>
+              {amount === 0 ? (
+                <div></div>
+              ) : (
+                <>
+                  <div>
+                    <Dropdown
+                      options={options}
+                      onChange={handleCurrencyChange}
+                      placeholder="Select currency"
+                    />
+                  </div>
+                  <div>
+                    <button type="submit" onClick={apiCall}>
+                      PAY NOW
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-          <div className="checkout_right">
-            <div>Total Price: {amount}</div>
-            {amount === 0 ? (
-              <div></div>
-            ) : (
-              <div className="d-flex">
-                <button onClick={apiCall}>Make payment</button>
-                <Dropdown
-                  options={options}
-                  onChange={handleCurrencyChange}
-                  placeholder="Select currency"
-                />
-              </div>
-            )}
-          </div>
-        </div>
+        </>
       )}
       {isPaymentSuccess && <PaymentSuccessPage />}
     </>

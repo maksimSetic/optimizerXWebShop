@@ -13,6 +13,7 @@ const CartPage = ({
   isCheckoutOpen,
   setIsCheckoutOpen,
   setIsCartPageOpen,
+  userName,
 }) => {
   const handleOpenCheckout = () => {
     setIsCheckoutOpen(true);
@@ -40,6 +41,7 @@ const CartPage = ({
             setIsCheckoutOpen={setIsCheckoutOpen}
             handleRemoveItem={handleRemoveItem}
             setIsCartPageOpen={setIsCartPageOpen}
+            userName={userName}
           />
         </>
       )}
