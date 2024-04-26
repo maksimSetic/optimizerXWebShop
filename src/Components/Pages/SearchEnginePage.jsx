@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import "./styles.css";
 import ProfilePage from "./ProfilePage";
+import axios from "axios";
 
 const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
   const endpoint = " https://api.npoint.io/4989eff402469a1d8505";
@@ -29,6 +30,12 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
   const [isProfilePageOpen, setIsProfilePageOpen] = useState(false);
   const [profession, setProfession] = useState("Doctor");
   const [favoriteAnimal, setFavoriteAnimal] = useState("Platypus");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const fetchUserEndpoint = `http://localhost:4000/get-user/${userId}`;
+  const editUserEndpoint = `http://localhost:4000/edit-profile-info/${userId}`;
+
+  const [user, setUser] = useState({ userId: userId });
 
   const [profileInfo, setProfileInfo] = useState({
     userName: userName,
@@ -50,6 +57,23 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
   useEffect(() => {
     renderTable();
   }, [filteredCars, currentPage]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.post(fetchUserEndpoint, user);
+        setUser(response.data);
+        console.log(user);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
 
   const togglePopup = () => {
     setIsPopupOpen(true);
@@ -357,7 +381,11 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
           </table>
         </motion.div>
       )}
-      <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
+      <Popup
+        isPopupOpen={isPopupOpen}
+        setIsPopupOpen={setIsPopupOpen}
+        popupMessage={"Item added successfully"}
+      />
       {viewModalSuccess && !isCartPageOpen && (
         <VehicleDetailsPage
           handleCloseDetails={handleCloseDetails}
@@ -400,6 +428,10 @@ const SearchEnginePage = ({ userName, setUsername, pwd, setPwd, userId }) => {
           setPwd={setPwd}
           profileInfo={profileInfo}
           setProfileInfo={setProfileInfo}
+          user={user}
+          setUser={setUser}
+          fetchUserEndpoint={fetchUserEndpoint}
+          editUserEndpoint={editUserEndpoint}
         />
       )}
     </>

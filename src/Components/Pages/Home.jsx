@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import Login from "../Utils/Login";
 import Register from "../Utils/Register";
-import SearchEnginePage from "./SearchEnginePage";
 
 const Home = () => {
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const [registerSuccess, setRegisterSuccess] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(true);
   const [authSuccess, setAuthSuccess] = useState(false);
-  const [userName, setUsername] = useState("akaka123");
-  const [userId, setUserId] = useState(1);
-  const [pwd, setPwd] = useState("");
+  const [userName, setUsername] = useState("Matija");
+  const [pwd, setPwd] = useState("lala123!");
   const [errMsg, setErrMsg] = useState("");
 
   const handleRegisterOpen = () => {
@@ -32,23 +29,21 @@ const Home = () => {
 
   return (
     <>
-      {/*  {!loginSuccess && !isRegisterOpen && (
+      {!isRegisterOpen && (
         <Login
-          success={loginSuccess}
-          setSuccess={setLoginSuccess}
           authSuccess={authSuccess}
           setAuthSuccess={setAuthSuccess}
           handleRegisterOpen={handleRegisterOpen}
           handleAuthSuccess={handleAuthSuccess}
           userName={userName}
           setUsername={setUsername}
-          pwd={pwd}
-          setPwd={setPwd}
+          password={pwd}
+          setPassword={setPwd}
           errMsg={errMsg}
           setErrMsg={setErrMsg}
         />
       )}
-      {!loginSuccess && !isLoginOpen && (
+      {!isLoginOpen && (
         <Register
           success={registerSuccess}
           setSuccess={setRegisterSuccess}
@@ -56,13 +51,7 @@ const Home = () => {
           setIsRegisterOpen={setIsRegisterOpen}
           setIsLoginOpen={setIsLoginOpen}
         />
-      )} */}
-
-      <SearchEnginePage
-        userName={userName}
-        setUsername={setUsername}
-        userId={userId}
-      />
+      )}
     </>
   );
 };

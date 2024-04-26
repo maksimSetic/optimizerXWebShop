@@ -5,7 +5,6 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import axios from "../API/axios";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -55,21 +54,25 @@ const Register = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if the username and password are valid
     const v1 = USER_REGEX.test(userName);
     const v2 = PWD_REGEX.test(pwd);
+
     if (!v1 || !v2) {
       setErrMsg("Invalid Entry");
       return;
     }
+
     try {
+      // Send a POST request to the server to register the user
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify([{ userName: userName, pwd: pwd }]),
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        { userName: userName, password: pwd }, // Send username and password in the expected format
+        { headers: { "Content-Type": "application/json" } }
       );
-      console.log(JSON.stringify(response?.data));
+
+      // If registration is successful, update the state and reset form fields
       setSuccess(true);
       setUsername("");
       setPwd("");
@@ -77,6 +80,7 @@ const Register = ({
       setIsLoginOpen(true);
       setIsRegisterOpen(false);
     } catch (err) {
+      // Handle different types of errors
       if (!err?.response) {
         setErrMsg("No Server Response");
       } else if (err.response?.status === 409) {
@@ -124,7 +128,14 @@ const Register = ({
           </h1>
 
           <form onSubmit={handleSubmit}>
-            <label htmlFor="username">
+            <label
+              htmlFor="username"
+              style={{
+                position: "unset",
+                textAlign: "left",
+                transform: "unset",
+              }}
+            >
               <i>Username:</i>
               <FontAwesomeIcon
                 style={{ marginLeft: "20px" }}
@@ -165,7 +176,14 @@ const Register = ({
               Letters, numbers, underscores, hyphens allowed.
             </p>
 
-            <label htmlFor="password">
+            <label
+              htmlFor="password"
+              style={{
+                position: "unset",
+                textAlign: "left",
+                transform: "unset",
+              }}
+            >
               <i>Password:</i>
               <FontAwesomeIcon
                 icon={faCheck}
@@ -205,7 +223,14 @@ const Register = ({
               <span aria-label="percent">%</span>
             </p>
 
-            <label htmlFor="confirm_pwd">
+            <label
+              htmlFor="confirm_pwd"
+              style={{
+                position: "unset",
+                textAlign: "left",
+                transform: "unset",
+              }}
+            >
               <i>Confirm password:</i>
               <FontAwesomeIcon
                 icon={faCheck}

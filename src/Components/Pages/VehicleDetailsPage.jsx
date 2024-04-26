@@ -89,7 +89,11 @@ const VehicleDetailsPage = ({
       </Tabs>
       <button onClick={handleAddItemDetails}>Add</button>
       <button onClick={handleCloseDetails}>Back</button>
-      <Popup isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} />
+      <Popup
+        isPopupOpen={isPopupOpen}
+        setIsPopupOpen={setIsPopupOpen}
+        popupMessage={"Item added successfully"}
+      />
     </>
   );
 };

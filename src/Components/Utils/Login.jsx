@@ -1,162 +1,93 @@
-import { useRef, useState, useEffect, useContext } from "react";
-import AuthContext from "./ContextProvider";
-import { Link } from "react-router-dom";
-import axios from "../API/axios";
+import React, { useState } from "react";
+import axios from "axios";
 import SearchEnginePage from "../Pages/SearchEnginePage";
-
-const REGISTER_URL = "https://api.npoint.io/75d66fd964e4cb9cf11a";
+import Popup from "./Popup";
 
 const Login = ({
   success,
   setSuccess,
-  handleRegisterOpen,
-  authSuccess,
-  setAuthSuccess,
   userName,
   setUsername,
-  pwd,
-  setPwd,
+  password,
+  setPassword,
   errMsg,
   setErrMsg,
+  handleRegisterOpen,
 }) => {
-  const { setAuth } = useContext(AuthContext);
-  const userRef = useRef();
-  const errRef = useRef();
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [userName, pwd]);
+  const [userId, setUserId] = useState(null);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.get(REGISTER_URL);
-      const users = response.data;
-
-      const user = users.find((u) => u.userName === userName && u.pwd === pwd);
-      if (user) {
-        setSuccess(true);
-        setAuth(user);
-        setAuthSuccess(true);
-      } else {
+      const response = await axios.post("http://localhost:4000/login", {
+        userName,
+        password,
+      });
+      console.log(response.data);
+      setLoginSuccess(true);
+      setUserId(response.data.user.id);
+    } catch (error) {
+      console.error(error);
+      if (error.response.status === 401) {
         setErrMsg("Invalid username or password");
-      }
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
+        setPopupMessage("Invalid username or password");
+        setIsPopupOpen(true);
       } else {
-        setErrMsg("Login Failed");
+        setErrMsg("Login failed");
       }
-      errRef.current.focus();
     }
   };
 
-  const handleNonSuccess = () => {
-    return (
-      <div
-        class="col-sm-12"
-        style={{ position: "absolute", zIndex: "2", left: "50%" }}
-      >
-        <div role="alert" data-brk-library="component__alert">
-          <div class="rotating-text-wrapper">
-            <h2>{errMsg}</h2>
-          </div>
-          <p></p>
-        </div>
-      </div>
-    );
-  };
-
-  const handleSuccess = () => {
-    return (
-      <div
-        class="col-sm-12"
-        style={{ position: "absolute", zIndex: "2", left: "50%" }}
-      >
-        <div role="alert" data-brk-library="component__alert">
-          <div class="rotating-text-wrapper">
-            <h2>{errMsg}</h2>
-          </div>
-          <p></p>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <>
-      <section>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          <div class="col-sm-12">
-            <div role="alert" data-brk-library="component__alert">
-              <div class="rotating-text-wrapper">
-                <h2>{errMsg}</h2>
-              </div>
-              <p></p>
-            </div>
-          </div>
-        </p>
-        <h1
-          style={{
-            fontFamily: "Sacramento",
-            fontSize: "44px",
-            fontWeight: 600,
-          }}
-        >
-          Sign In
-        </h1>
+    <div>
+      {isPopupOpen && (
+        <Popup
+          isPopupOpen={isPopupOpen}
+          setIsPopupOpen={setIsPopupOpen}
+          popupMessage={popupMessage}
+        />
+      )}
+      {loginSuccess && (
+        <SearchEnginePage
+          userName={userName}
+          setUsername={setUsername}
+          userId={userId}
+        />
+      )}
+      {!loginSuccess && (
         <form onSubmit={handleSubmit}>
-          <label htmlFor="username">
-            <i>Username:</i>
+          <h2>Login</h2>
+          <label
+            style={{ position: "unset", textAlign: "left", transform: "unset" }}
+          >
+            Username:
           </label>
           <input
             type="text"
-            id="username"
-            ref={userRef}
-            autoComplete="off"
-            onChange={(e) => setUsername(e.target.value)}
             value={userName}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <label htmlFor="password">
-            <i>Password:</i>
+          <label
+            style={{ position: "unset", textAlign: "left", transform: "unset" }}
+          >
+            Password:
           </label>
           <input
             type="password"
-            id="password"
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button
-            onClick={success ? handleNonSuccess : handleNonSuccess}
-            style={{ fontSize: "16px" }}
-          >
-            Log In
-          </button>
+          <button type="submit">Log In</button>
+          <button onClick={handleRegisterOpen}>Sign up</button>
+          {errMsg && <div>{errMsg}</div>}
         </form>
-        <p>
-          Need an Account?
-          <br />
-          <span className="line">
-            <button onClick={handleRegisterOpen}>Sign Up</button>
-          </span>
-        </p>
-      </section>
-    </>
+      )}
+    </div>
   );
 };
 

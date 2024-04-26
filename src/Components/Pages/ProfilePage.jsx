@@ -2,25 +2,18 @@ import React, { useState, useEffect } from "react";
 import "./profilePageStyles.css";
 import axios from "axios";
 
-const ProfilePage = ({
-  backToShop,
-  userName,
-  userId,
-  profileInfo,
-  setProfileInfo,
-}) => {
-  const [user, setUser] = useState({ userId: userId });
+const ProfilePage = ({ backToShop, user, setUser, userId }) => {
+  const [isEditDisabled, setIsEditDisabled] = useState(true);
+  const fetchUserEndpoint = `http://localhost:4000/get-user/${userId}`;
+  const editUserEndpoint = `http://localhost:4000/edit-profile-info/${userId}`;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const endpoint = `http://localhost:4000/get-user/${userId}`;
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.post(endpoint, user);
-        setUser(response.data);
-        console.log(user);
+        const response = await axios.post(fetchUserEndpoint, { userId });
+        console.log(response.data);
       } catch (error) {
         console.error(error);
         setError("Failed to fetch user data");
@@ -32,10 +25,39 @@ const ProfilePage = ({
     fetchUser();
   }, [userId]);
 
+  const [editUserObject, setEditUserObject] = useState({
+    userId: userId,
+    userName: user.userName,
+    password: user.password,
+    profession: user.profession,
+    favoriteAnimal: user.favoriteAnimal,
+  });
+
+  const toggleEdit = () => {
+    setIsEditDisabled(!isEditDisabled);
+  };
+
+  const editUser = async () => {
+    try {
+      const response = await axios.put(editUserEndpoint, {
+        userId: userId,
+        userName: editUserObject.userName,
+        password: editUserObject.password,
+        profession: editUserObject.profession,
+        favoriteAnimal: editUserObject.favoriteAnimal,
+      });
+      console.log("User edited:", response.data);
+      setUser(response.data);
+      setIsEditDisabled(true);
+    } catch (error) {
+      console.error("Error editing user:", error.message);
+    }
+  };
+
   return (
     <>
       <div>
-        <button onClick={backToShop}>Back</button>ProfilePage
+        <button onClick={backToShop}>Back</button>
       </div>
       <div class="profile-card">
         <div class="avatar">
@@ -45,9 +67,40 @@ const ProfilePage = ({
           />
         </div>
         <div class="salutation">
-          <div class="name">{user.userName}</div>
-          <div class="designation">{user.profession}</div>
-          <div class="designation">{user.favoriteAnimal}</div>
+          <div class="name">
+            <input
+              className={
+                isEditDisabled ? "profile_input_disabled" : "profile_input"
+              }
+              defaultValue={user?.userName}
+              disabled={isEditDisabled}
+            />
+          </div>
+          <div class="designation">
+            {" "}
+            <input
+              className={
+                isEditDisabled ? "profile_input_disabled" : "profile_input"
+              }
+              defaultValue={user?.profession}
+              disabled={isEditDisabled}
+            />
+          </div>
+          <div class="designation">
+            {" "}
+            <input
+              className={
+                isEditDisabled ? "profile_input_disabled" : "profile_input"
+              }
+              defaultValue={user?.favoriteAnimal}
+              disabled={isEditDisabled}
+            />{" "}
+          </div>
+          {!isEditDisabled && (
+            <button style={{ height: "1.8em" }} onClick={editUser}>
+              Save
+            </button>
+          )}
         </div>
         <div class="options">
           <button class="status">
@@ -58,7 +111,7 @@ const ProfilePage = ({
             />
             <span>Set a Status</span>
           </button>
-          <button class="edit-profile">
+          <button class="edit-profile" onClick={toggleEdit}>
             <img
               src="https://pics.freeicons.io/uploads/icons/png/5157340221529652583-64.png"
               alt=""
