@@ -12,13 +12,6 @@
   --main-txt-color: #130c35;
 }
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--main-bg);
-}
-
 .profile-card {
   background-color: white;
   color: var(--main-txt-color);

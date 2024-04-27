@@ -69,58 +69,63 @@ const CheckoutPage = ({
   return (
     <>
       {!isPaymentSuccess && (
-        <button onClick={closeCheckout}>Back to cart</button>
-      )}
-      <Link to="/">
-        <button onClick={backToShop}>Back to shop</button>
-      </Link>
-      {!isPaymentSuccess && (
         <>
-          <PaymentForm
-            userName={userName}
-            email={email}
-            password={password}
-            cardNumber={cardNumber}
-            cVV={cVV}
-          />
-          <div className="checkout_wrapper">
-            <div className="checkout_left">
-              <ul className="checkout_items">
-                {cartItems?.map((car, index) => (
-                  <li key={index} className="checkout_item">
-                    <span className="actor">
-                      {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
-                    </span>
-                    <button
-                      onClick={() => handleRemoveItem(index)}
-                      style={{ marginTop: "15px" }}
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="checkout_right">
-              <div>Total Price: {amount}</div>
-              {amount === 0 ? (
-                <div></div>
-              ) : (
-                <>
-                  <div>
-                    <Dropdown
-                      options={options}
-                      onChange={handleCurrencyChange}
-                      placeholder="Select currency"
-                    />
-                  </div>
-                  <div>
-                    <button type="submit" onClick={apiCall}>
-                      PAY NOW
-                    </button>
-                  </div>
-                </>
-              )}
+          <div className="d-flex justify-content-center">
+            {" "}
+            {!isPaymentSuccess && (
+              <button onClick={closeCheckout}>Back to cart</button>
+            )}
+            <Link to="/">
+              <button onClick={backToShop}>Back to shop</button>
+            </Link>
+          </div>
+          <div className="d-flex justify-content-center align-items-center flex-column flex-md-row">
+            <PaymentForm
+              userName={userName}
+              email={email}
+              password={password}
+              cardNumber={cardNumber}
+              cVV={cVV}
+            />
+            <div className="checkout_wrapper me-0 me-md-auto">
+              <div className="checkout_left">
+                <ul className="checkout_items">
+                  {cartItems?.map((car, index) => (
+                    <li key={index} className="checkout_item">
+                      <span className="actor">
+                        {car.Name.charAt(0).toUpperCase() + car.Name.slice(1)}
+                      </span>
+                      <button
+                        onClick={() => handleRemoveItem(index)}
+                        style={{ marginTop: "15px" }}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="checkout_right">
+                <div>Total Price: {amount}</div>
+                {amount === 0 ? (
+                  <div></div>
+                ) : (
+                  <>
+                    <div>
+                      <Dropdown
+                        options={options}
+                        onChange={handleCurrencyChange}
+                        placeholder="Select currency"
+                      />
+                    </div>
+                    <div>
+                      <button type="submit" onClick={apiCall}>
+                        PAY NOW
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </>

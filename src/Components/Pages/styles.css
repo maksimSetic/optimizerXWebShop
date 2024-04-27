@@ -122,16 +122,6 @@
   font-size: 0.8em;
 }
 
-.checkout_wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-
-.checkout_left {
-  flex: 1;
-  gap: 20px;
-}
-
 .checkout_items {
   list-style: none;
   padding: 0;
@@ -142,9 +132,6 @@
   border: 2px solid red;
 }
 
-.checkout_right {
-  flex: 1;
-}
 .popup_window_closed {
   height: 100px;
   background-color: red;
